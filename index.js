@@ -82,7 +82,7 @@ function viewAllRoles() {
 }
 
 function addRole() {
-    let newRole = [],
+    let newRole = [];
     getName("job's title")
         .then(userInput => {
             // New role with "title"
@@ -93,12 +93,12 @@ function addRole() {
                     // New role with title + salary 
                     db.readAllDepartments()
                         .then(res => {
-                            const department = res.map(row => ({
+                            const departments = res.map(row => ({
                                 value: row.id,
                                 name: row.department
                             }));
                             // New role with titel + salary + deparment ids 
-                            selectFromList('department', department)
+                            selectFromList('department', departments)
                                 .then(userPick => {
                                     newRole.push(userPick.id);
                                     db.createRole(newRole)
@@ -139,7 +139,7 @@ function viewAllEmployees() {
             console.log('\n');
             console.table(res);
         })
-        .then((=> askUser())
+        .then(() => askUser())
         .catch(err => console.log(err));
 }
 
@@ -169,7 +169,7 @@ function viewEmployeesByDpt() {
     db.readAllDepartments()
         .then(res => {
             const departments = res.map(row => ({
-                value: row.id
+                value: row.id,
                 name: row.department
             }));
             selectFromList('department', departments)
@@ -208,7 +208,7 @@ function addEmployee() {
                             // Employee first + last name + roles
                             selectFromList('job title', roles)
                                 .then(userPick => {
-                                    newEmployee.push(userpick.id);
+                                    newEmployee.push(userPick.id);
                                     db.readAllManagers()
                                         .then(res => {
                                             const managers = res.map(row => ({
@@ -248,7 +248,7 @@ function changeEmployeeRole() {
         .then(res => {
             const employees = res.map(row => ({
                 value: row.id,
-                name: row.first_name + "" + row.last_name
+                name: row.first_name + ' ' + row.last_name
             }));
 
             // Employee id
@@ -322,12 +322,12 @@ function removeEmployee() {
             const employees = res.map(row => ({
                 value: row.id,
                 name: row.first_name + ' ' + row.last_name
-            });
+            }));
             selectFromList('employee', employees)
                 .then(userPick => {
                     db.deleteEmployee(userPick.id)
                         .then(() => askUser())
-                        .catch(er => console.log(er));
+                        .catch(err => console.log(err));
                 })
                 .catch(err => console.log(err));
         })
