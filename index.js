@@ -16,14 +16,14 @@ function viewAllDepartments() {
             console.log('\n');
             console.table(res);
         })
-        .then() => askUser()
+        .then(() => askUser())
         .catch(err => console.log(err));
 }
 
 function viewUtilizedBudgetByDpt() {
     db.readAllDepartments()
         .then(res => {
-            const departments = res.map(row=> {
+            const departments = res.map(row => ({
                 value: row.id,
                 name: row.department
             }));
@@ -46,7 +46,7 @@ function addDepartment() {
     getName("department's name")
         .then(userInput => {
             db.createDepartment(userInput.newName)
-                .then(() => askuser())
+                .then(() => askUser())
                 .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
@@ -56,15 +56,16 @@ function removeDepartment() {
     db.readAllDepartments()
         .then(res => {
             const departments = res.map(row => ({
-                value: row.id;
+                value: row.id,
                 name: row.department
             }));
-            selectFromList("department", departments)
+            selectFromList('department', departments)
                 .then(userPick => {
                     db.deleteDepartment(userPick.id)
-                        .then(() => askuser())
+                        .then(() => askUser())
                         .catch(err => console.log(err));
                 })
                 .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
+}
