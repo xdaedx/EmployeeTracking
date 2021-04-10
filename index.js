@@ -333,3 +333,67 @@ function removeEmployee() {
         })
         .catch(err => console.log(err));
 }
+
+//Function ask user - user input
+function askUser() {
+    mainPrompt()
+        .then(userInput => selectAction(userInput.choice))
+        .catch(err => console.log(err));
+}
+
+// Function selects from user choices/inputs
+function selectAction(choice) {
+    switch (choice) {
+        case 'view all departments':
+            viewAllDepartments();
+            break;
+        case 'view all roles':
+            viewAllRoles();
+            break;
+        case 'view all employees':
+            viewAllEmployees();
+            break;
+        case 'view all employees by manager':
+            viewEmployeesByMgr();
+            break;
+        case 'view all employees by department':
+            viewEmployeesByDpt();
+            break;
+        case 'view utilized budget by department':
+            viewUtilizedBudgetByDpt();
+            break;
+        case 'add department':
+            addDepartment();
+            break;
+        case 'add role':
+            addRole();
+            break;
+        case 'add employee':
+            addEmployee();
+            break;
+        case 'update employee role':
+            changeEmployeeRole();
+            break;
+        case 'update employee manager':
+            changeEmployeeMgr();
+            break;
+        case 'remove department':
+            removeDepartment();
+            break;
+        case 'remove role':
+            removeRole();
+            break;
+        case 'remove employee':
+            removeEmployee();
+            break;
+        case 'update employee role':
+            editEmployeeRole();
+            break;
+        case 'update employee manager':
+            editEmployeeManager();
+            break;
+        case 'exit':
+            db.endConnection();
+            return;
+    }
+}
