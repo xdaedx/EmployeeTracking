@@ -15,9 +15,11 @@ const mainPrompt = () => {
                 'add role',
                 'remove role',
                 'view all employees',
+                'view all employees by manager',
                 'view all employees by department',
                 'add employee',
                 'update employee role',
+                'update employee manager',
                 'remove employee',
                 'view utilized budget by department',
                 'exit'
@@ -49,7 +51,7 @@ const getName = (nameWanted) => {
                 if (nameInput) {
                     return true;
                 } else {
-                    return `Please enter the ${nameWanteed}.`,
+                    return `Please enter the ${nameWanteed}.`;
                 }                
             }
         }
@@ -63,11 +65,11 @@ const getSalary = () => {
             type: 'number',
             name: 'salary',
             message: 'What is the salary?',
-            validate: nInput => {
+            validate: nbInput => {
                 if (!isNaN(parseFloat(nbInput)) && parseFloat(nbInput) >= 0) {
                     return true;
                 } else {
-                    return 'Please enter a positive number.',                    
+                    return 'Please enter a positive number.';                    
                 }
             }
         }
@@ -75,8 +77,8 @@ const getSalary = () => {
 };
 
 module.exports = {
-    mainprompt,
-    selectfromList,
-    getname,
-    getSsalary
+    mainPrompt,
+    selectFromList,
+    getName,
+    getSalary
 }
