@@ -97,3 +97,67 @@ function readEmployeesByDpt(dptId) {
         .then(([rows, fields]) => rows)
         .catch(err => console.log(err));
 }
+
+//Grouping the departments by total_utilized_budget + ids
+function readUtilizedBudget(dptId) {
+    const sql = `SELECT dpt_name AS department, SUM(salary) AS total_utilized_budget
+        FROM employees
+        LEFT JOIN roles ON employees.role_id = roles.id
+        LEFT JOIN departments ON roles.dpt_id = departments.id
+        WHERE departments.id = ?
+        `,
+    const params = [dptId];
+    return connection.promise().query(sql, params)
+        .then(([rows, fields]) => rows)
+        .catch(err => console.log(err)),
+}
+
+// Function Updates
+function updateEmployeeRole(newRole) {
+    const sql = `UPDATE employees SET role_id = ? WHERE id = ?`;
+    const params = [newRole[1], newRole[0]];
+    return connection.promise().query(sql, params)
+        .then(([rows, fields]) => console.log(`\nJobs was changed for employee with id ${newRole[0]}.\n`))
+        .catch(err => console.log(err));
+}
+
+function updateEmployeeMgr(newMgr) {
+    const sql = `UPDATE employees SET mgr_id = ? WHERE id = ?`;
+    const params= [newMgr[1], newMgr[0]];
+    return connection.promise().query(sql, params)
+        .then(([rows, fields]) => console.log(`\nManager was changed for employee with id ${newMgr[0]}.\n`))
+        .catch(err => console.log(err);
+}
+
+
+// Functions Delete
+function deleteDepartment(id) {
+    const sql = `DELETE FROM departments WHERE id = ?`;
+    const params = (id);
+    return connection.promise().query(sql, params)
+        .then(([rows, fields]) => {
+            console.log(`\nDepartment ${id} was deleted.\n`);
+        })
+        .catch(err => console.log(err));
+}
+
+function deleteRole(id) {
+    const sql = `DELETE FROM roles WHERE id = ?`;
+    const params = (id);
+    return connection.promise().query(sql, params)
+        .then(([rows, fields]) => {
+            console.log(`\nRole ${id} was deleted.\n`);
+        })
+        .catch(err => console.log(err));
+}
+
+function deleteEmployee(id) {
+    const sql= `DELETE FROM employees WHERE id = ?`;
+    const params= (id);
+    return connection.promise().query(sql, params)
+        .then(([rows, fields]) => {
+            console.log(`\nEmployee with id ${id} was removed from the database.\n`);
+        })
+        .catch(err => console.log(err));
+
+// closing of the db
