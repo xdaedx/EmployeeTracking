@@ -12,7 +12,7 @@ function createDepartment(dpt_name) {
 function createRole(newRole) {
     const sql = `INSERT INTO roles (title, salary, dpt_id) VALUES (?, ?, ?)`;
     return connection.promise().query(sql, newRole)
-        .then(([rows, fields]) => console.log(`\nNew job title '${newRole[0]}' added.\n`))
+        .then(([rows, fields]) => console.log(`\nNew job title "${newRole[0]}" added.\n`))
         .catch(err => console.log(err));
 }
 
@@ -23,24 +23,24 @@ function createEmployee(newEmployee) {
         .catch(err => console.log(err));
 }
 
-// Fuctions beign read
+// Functions being read
 function readAllDepartments() {
     const sql = 'SELECT dpt_name AS department, id FROM departments ORDER BY department';
     const params = [];
     return connection.promise().query(sql, params)
         .then(([rows, fields]) => rows)
-        .catch(err => console.log(err);
+        .catch(err => console.log(err));
 }
 
-function redAllRoles() {
+function readAllRoles() {
     const sql = `SELECT title, roles.id AS role_id, dpt_name AS department, salary
         FROM roles
         LEFT JOIN departments ON roles.dpt_id = departments.id
-        ORDER BY title`,
+        ORDER BY title`;
     const params = [];
     return connection.promise().query(sql, params)
         .then(([rows, fields]) => rows)
-        .catch(err => console.log(err)),
+        .catch(err => console.log(err));
 }
 
 function readAllEmployees() {
@@ -77,7 +77,7 @@ function readEmployeesByMgr(mgrId) {
         LEFT JOIN employees emp2 ON emp1.mgr_id = emp2.id
         WHERE emp1.mgr_id = ?
         ORDER BY emp1.last_name`;
-    const params= [mgrId];
+    const params = [mgrId];
     return connection.promise().query(sql, params)
         .then(([rows, fields]) => rows)
         .catch(err => console.log(err));
@@ -85,14 +85,15 @@ function readEmployeesByMgr(mgrId) {
 
 function readEmployeesByDpt(dptId) {
     const sql = `SELECT emp1.id AS id, emp1.first_name, emp1.last_name, title, dpt_name AS department, salary,
-        CONCAT(emp2.first_name, '', emp2.last_name) as manager
+        CONCAT(emp2.first_name, ' ', emp2.last_name) as manager
         FROM employees emp1
         LEFT JOIN roles ON emp1.role_id = roles.id
         LEFT JOIN departments ON roles.dpt_id = departments.id
         LEFT JOIN employees emp2 ON emp1.mgr_id = emp2.id
         WHERE departments.id = ?
         ORDER BY emp1.last_name`;
-    const params = (dptId);
+    const params = [dptId];
     return connection.promise().query(sql, params)
         .then(([rows, fields]) => rows)
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
+}
